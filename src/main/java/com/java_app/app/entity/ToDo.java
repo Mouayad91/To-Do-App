@@ -11,6 +11,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+/**
+ * ToDo class represents the ToDo entity mapped to the "todos" table in the database.
+ */
+
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +26,7 @@ import lombok.Setter;
 public class ToDo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Indicates that the ID should be generated automatically
     private Long id;
 
     @Column(name = "title", nullable = false)
