@@ -1,10 +1,14 @@
 package com.java_app.app.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.java_app.app.dto.ToDoDto;
 import com.java_app.app.entity.ToDo;
+import com.java_app.app.exception.ResourceNotFoundExcep;
 import com.java_app.app.repository.ToDoRepository;
 import com.java_app.app.service.ToDoService;
 
@@ -41,5 +45,28 @@ public class ToDoServiceImpl implements ToDoService {
         ToDoDto savedToDoDto = modelMapper.map(savedToDo, ToDoDto.class);
 
         return savedToDoDto;
+    }
+
+    @Override
+    public ToDoDto getToDo(Long id) {
+        
+      ToDo toDo = toDoRepository.findById(id)
+      .orElseThrow(()-> new ResourceNotFoundExcep("To do is not found with the id of :" + id)); 
+
+        return modelMapper.map(toDo, ToDoDto.class);
+    }
+
+    @Override
+    public List<ToDoDto> getAllToDos() {
+       
+        List<ToDo> toDos = toDoRepository.findAll();
+       
+       
+        return toDos.stream()
+        .map((todo)-> modelMapper
+        .map(todo, ToDoDto.class))
+        .collect(Collectors.toList());
+    
+    
     }
 }
