@@ -20,9 +20,9 @@ public class Role {
    
    
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)  // Specifies the primary key generation strategy
+    private Long id;  // ID of the role
+    private String name;  // Name of the role
 
     
 }

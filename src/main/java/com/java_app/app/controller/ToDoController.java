@@ -138,7 +138,7 @@ public class ToDoController {
      * @param id the ID of the ToDo to be marked as incomplete.
      * @return ResponseEntity containing the updated ToDo and HTTP status.
      */
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")  // Allows users with ADMIN or USER roles
     @PatchMapping("{id}/incomplete")
     public ResponseEntity<ToDoDto> inCompleteToDo(@PathVariable Long id){
 

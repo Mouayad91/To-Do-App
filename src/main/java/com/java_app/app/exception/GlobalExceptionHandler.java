@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-@ControllerAdvice
+@ControllerAdvice  // Allows handling exceptions across the whole application
 public class GlobalExceptionHandler {
     
 
-
+    // Handles ToDoApiException
     @ExceptionHandler(ToDoApiException.class)
+   
     public ResponseEntity<ErrorDetails> handelToDoAPIException(
         ToDoApiException exception, WebRequest webRequest){
 

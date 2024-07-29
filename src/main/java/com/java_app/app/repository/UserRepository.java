@@ -8,12 +8,12 @@ import com.java_app.app.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(String username);  // Finds a user by username
     
-    boolean existsByEmail(String email);
+    boolean existsByEmail(String email);  // Checks if a user with the given email exists
 
-    Optional<User> findByUsernameOrEmail(String username, String email);
+    Optional<User> findByUsernameOrEmail(String username, String email); // Finds a user by username or email
 
-    boolean existsByUsername(String username);
+    boolean existsByUsername(String username);  // Checks if a user with the given username exists
 
 }

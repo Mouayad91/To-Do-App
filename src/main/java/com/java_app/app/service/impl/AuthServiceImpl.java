@@ -18,77 +18,70 @@ import com.java_app.app.entity.User;
 import com.java_app.app.exception.ToDoApiException;
 import com.java_app.app.repository.RoleRepository;
 import com.java_app.app.repository.UserRepository;
+import com.java_app.app.security.JwtTokenProvider;
 import com.java_app.app.service.AuthService;
 
 import lombok.AllArgsConstructor;
 
-@Service
-@AllArgsConstructor
+@Service // Indicates that this class is a Spring service
+@AllArgsConstructor // Generates a constructor with required arguments
 public class AuthServiceImpl implements AuthService {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
+    private final UserRepository userRepository; // Injects UserRepository
+    private final RoleRepository roleRepository; // Injects RoleRepository
+    private final PasswordEncoder passwordEncoder; // Injects PasswordEncoder
+    private final AuthenticationManager authenticationManager; // Injects AuthenticationManager
+    private final JwtTokenProvider jwtTokenProvider; // Injects JwtTokenProvider
 
     @Override
-    public String regrister(RegisterDto registerDto) {
-      
-        // check username if its in DB
-        if(userRepository.existsByUsername(registerDto.getUsername())){
-
-            throw new ToDoApiException(HttpStatus.BAD_REQUEST, "username is allready exists");
-
+    public String register(RegisterDto registerDto) {
+        // Checks if username exists
+        if (userRepository.existsByUsername(registerDto.getUsername())) {
+            throw new ToDoApiException(HttpStatus.BAD_REQUEST, "Username already exists");
         }
 
-        // check if email in DB
-
-        if(userRepository.existsByEmail(registerDto.getEmail())){
-
-            throw new ToDoApiException(HttpStatus.BAD_REQUEST, "Email is allready exists");
+        // Checks if email exists
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            throw new ToDoApiException(HttpStatus.BAD_REQUEST, "Email already exists");
         }
 
-
+        // Creates a new user
         User user = new User();
-
         user.setName(registerDto.getName());
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-
+        // Sets user role
         Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName("ROLE_USER");
+        roles.add(userRole);
 
-      Role userRole =  roleRepository.findByName("ROLE_USER");
-      roles.add(userRole);
-      
-      user.setRoles(roles);
+        
+        if ("admin".equals(registerDto.getUsername())) {
+            Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+            roles.add(adminRole);
+        }
 
-      userRepository.save(user);
+        user.setRoles(roles);
 
-        return "User regiseterd successfully.";
+        userRepository.save(user);
+
+        return "User registered successfully.";
     }
 
     @Override
     public String login(LoginDto loginDto) {
-        
-
-
-       Authentication authentication = authenticationManager.authenticate(
+        // Authenticates the user
+        Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-            loginDto.getUsernameOrEmail(), 
-            loginDto.getPassword()));
+                loginDto.getUsernameOrEmail(), 
+                loginDto.getPassword()
+            )
+        );
 
+        SecurityContextHolder.getContext().setAuthentication(authentication); // Sets authentication in security context
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
-        return "Logged in successfully!";
+        return jwtTokenProvider.generateToken(authentication); // Generates and returns the JWT token
     }
-    
-
-
-
-
-    
 }

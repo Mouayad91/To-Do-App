@@ -41,11 +41,14 @@ public class User {
     @Column(nullable = false)
     private String password;
     
-    @JoinTable(name="users_roles",
-    joinColumns= @JoinColumn(name="user_id", referencedColumnName="id")
-    ,inverseJoinColumns=@JoinColumn(name="role_id", referencedColumnName="id"))
    
-    @ManyToMany(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+   
+    @ManyToMany(fetch = FetchType.EAGER, cascade= CascadeType.ALL)  // Specifies a many-to-many relationship with eager fetching and cascading all operations
+    
+    @JoinTable(name="users_roles",
+    joinColumns= @JoinColumn(name="user_id", referencedColumnName="id")  // Joins the "user_id" column with the "id" column in the "users" table
+    ,inverseJoinColumns=@JoinColumn(name="role_id", referencedColumnName="id"))  // Joins the "role_id" column with the "id" column in the "roles" table
+    
     private Set<Role> roles ;
 
 

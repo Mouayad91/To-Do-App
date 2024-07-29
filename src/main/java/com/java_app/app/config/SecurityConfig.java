@@ -15,18 +15,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.java_app.app.security.JwtAuthenticationEntry;
+import com.java_app.app.security.JwtAuthenticationFilter;
 
 import lombok.AllArgsConstructor;
 
-@Configuration
-@EnableMethodSecurity
+
+
+
+@Configuration  //Class has spring configs
+@EnableMethodSecurity //Enable method-level security
 @AllArgsConstructor
+
+
+
 public class SecurityConfig {
 
 
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService; // Injects UserDetailsService
+    private JwtAuthenticationEntry authenticationEntry; // Injects custom authentication entry point
+    private JwtAuthenticationFilter authenticationFilter; // Injects JWT authentication filter
 
-  // password encoder
+    // Bean for password encoding using BCrypt
   @Bean
   public static PasswordEncoder passwordEncoder(){
 
@@ -36,6 +48,8 @@ public class SecurityConfig {
 
   }
   
+
+  // Bean for authentication manager
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
 
@@ -49,45 +63,23 @@ public class SecurityConfig {
 
 
 
-
+  // Configures the security filter chain
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      http.csrf().disable()
+      http.csrf().disable()                                     // Disables CSRF protection
           .authorizeHttpRequests((authorize) -> {
               authorize
-                //   .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                //   .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-                //   .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-                //   .requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN","USER")
-                //   .requestMatchers(HttpMethod.PATCH,"/api/**").hasAnyRole("ADMIN","USER")
-                //     .requestMatchers(HttpMethod.GET,"/api/**").permitAll()
-                  .requestMatchers("/api/auth/**").permitAll()
-                     .anyRequest().authenticated();
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated(); // Requires authentication for any other request
           })
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults());   // Uses basic HTTP authentication
+
+                http.exceptionHandling(exception -> exception    
+                .authenticationEntryPoint(authenticationEntry));  // Handles authentication exceptions
+
+                http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);  // Adds JWT filter
 
       return http.build();
   }
 
-
-    // @Bean
-    // public UserDetailsService userDetailsService() {
-     
-     
-   
-     
-    //     UserDetails mody = User.builder()
-    //         .username("mody")
-    //         .password(passwordEncoder().encode("225323")) 
-    //         .roles("USER")
-    //         .build();
-        
-    //     UserDetails admin = User.builder()
-    //         .username("admin")
-    //         .password(passwordEncoder().encode("admin")) 
-    //         .roles("ADMIN")
-    //         .build();
-
-    //     return new InMemoryUserDetailsManager(mody, admin);
-    // }
 }

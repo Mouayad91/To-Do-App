@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.java_app.app.dto.JwtAuthResponse;
 import com.java_app.app.dto.LoginDto;
 import com.java_app.app.dto.RegisterDto;
 import com.java_app.app.service.AuthService;
@@ -28,25 +29,27 @@ public class AuthController {
 
 
 
-    // Register REST API
-
+    //To register a new user
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
 
 
-        String response = authService.regrister(registerDto);
+        String response = authService.register(registerDto); 
 
         return  new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
 
-
+    //To log in a user
     @PostMapping("/login")
-    public ResponseEntity<String> logIn(@RequestBody LoginDto loginDto){
+    public ResponseEntity<JwtAuthResponse> logIn(@RequestBody LoginDto loginDto){
 
-       String response =  authService.login(loginDto);
+       String token =  authService.login(loginDto);  // Calls the service to authenticate a user
 
-       return new ResponseEntity<>(response, HttpStatus.OK);
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse(); // Creates a new JWT response
+        jwtAuthResponse.setAccessToken(token); // Sets the token in the response
+
+       return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK); // Returns a response with status 200
     }
 
 }

@@ -4,10 +4,8 @@ import com.java_app.app.dto.LoginDto;
 import com.java_app.app.dto.RegisterDto;
 
 public interface AuthService {
-    
 
-    String regrister(RegisterDto registerDto);
+    String register(RegisterDto registerDto);
 
     String login(LoginDto loginDto);
-
 }

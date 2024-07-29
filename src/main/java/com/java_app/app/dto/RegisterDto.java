@@ -12,10 +12,10 @@ import lombok.Setter;
 
 public class RegisterDto {
     
-private String name;
-private String username;
-private String email;
-private String password;
+private String name;  // Name of the user
+private String username; // Username of the user
+private String email;   // Email of the user
+private String password; // Password of the user
 
 
 

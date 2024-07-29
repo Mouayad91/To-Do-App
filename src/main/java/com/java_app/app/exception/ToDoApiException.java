@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 
 public class ToDoApiException extends RuntimeException {
 
-
-private HttpStatus status;
-private String message;
+ 
+private HttpStatus status; // HTTP status of the exception
+private String message;  // Message of the exception
 
 
     
