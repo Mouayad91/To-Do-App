@@ -31,19 +31,19 @@ This is a simple ToDo application built using Spring Boot, Spring Security, JWT 
 # Application Setup
 1. Clone the repository
 
-git clone https://github.com/Mouayad91/To-Do-App
+-git clone https://github.com/Mouayad91/To-Do-App
 
 2. Navigate to the project directory
 
-cd todo-app
+-cd todo-app
 
 3. Build the project using Maven
 
-mvn clean install
+-mvn clean install
 
 4. Run the application
 
-mvn clean spring-boot:run
+-mvn clean spring-boot:run
 
 # Endpoints
 
@@ -51,18 +51,18 @@ mvn clean spring-boot:run
 
 1. Authentication
 
-POST /api/auth/register - Register a new user
-POST /api/auth/login - Log in a user
+-POST /api/auth/register - Register a new user
+-POST /api/auth/login - Log in a user
 
 2. ToDo
 
-POST /api/todos - Create a new ToDo (Admin only)
-GET /api/todos/{id} - Get a ToDo by ID (Admin and User)
-GET /api/todos - Get all ToDos (Admin and User)
-PUT /api/todos/{id} - Update a ToDo by ID (Admin only)
-DELETE /api/todos/{id} - Delete a ToDo by ID (Admin only)
-PATCH /api/todos/{id}/complete - Mark a ToDo as complete (Admin and User)
-PATCH /api/todos/{id}/incomplete - Mark a ToDo as incomplete (Admin and User)
+-POST /api/todos - Create a new ToDo (Admin only)
+-GET /api/todos/{id} - Get a ToDo by ID (Admin and User)
+-GET /api/todos - Get all ToDos (Admin and User)
+-PUT /api/todos/{id} - Update a ToDo by ID (Admin only)
+-DELETE /api/todos/{id} - Delete a ToDo by ID (Admin only)
+-PATCH /api/todos/{id}/complete - Mark a ToDo as complete (Admin and User)
+-PATCH /api/todos/{id}/incomplete - Mark a ToDo as incomplete (Admin and User)
 
 # Using Postman
 
@@ -108,8 +108,8 @@ Body (JSON):
 
 
 # Acknowledgements
-Spring Boot
-Spring Security
-JSON Web Tokens (JWT)
-PostgreSQL
-Lombok
+-Spring Boot
+-Spring Security
+-JSON Web Tokens (JWT)
+-PostgreSQL
+-Lombok
