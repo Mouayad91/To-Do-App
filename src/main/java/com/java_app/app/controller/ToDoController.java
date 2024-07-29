@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -42,6 +43,7 @@ public class ToDoController {
      * @return ResponseEntity containing the created ToDo and HTTP status.
      */
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ToDoDto> addToDo(@RequestBody ToDoDto toDoDto) {
         ToDoDto savedToDoDto = toDoService.addToDo(toDoDto);         //Call the service to add a new ToDo
@@ -55,7 +57,8 @@ public class ToDoController {
      * @param toDoId the ID of the ToDo to be retrieved.
      * @return ResponseEntity containing the retrieved ToDo and HTTP status.
      */
-
+    
+     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("{id}")
     public ResponseEntity<ToDoDto> getToDoById(@PathVariable("id") Long toDoId){
 
@@ -69,7 +72,7 @@ public class ToDoController {
      * Get all ToDos.
      * @return ResponseEntity containing the list of all ToDos and HTTP status.
      */
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public ResponseEntity<List<ToDoDto>> getAllToDos(){
 
@@ -86,7 +89,7 @@ public class ToDoController {
      * @param id the ID of the ToDo to be updated.
      * @return ResponseEntity containing the updated ToDo and HTTP status.
      */
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{id}") // Maps HTTP PUT requests with a path variable to this method
     public ResponseEntity<ToDoDto> updateToDo(@RequestBody ToDoDto toDoDto, @PathVariable("id") Long id){
 
@@ -102,6 +105,7 @@ public class ToDoController {
      * @return ResponseEntity containing a success message and HTTP status.
      */
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{id}")
 
     public ResponseEntity<String> deletetToDo(@PathVariable Long id){
@@ -118,7 +122,7 @@ public class ToDoController {
      * @param id the ID of the ToDo to be marked as complete.
      * @return ResponseEntity containing the updated ToDo and HTTP status.
      */
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PatchMapping("{id}/complete")
     public ResponseEntity<ToDoDto> completeToDo(@PathVariable Long id){
 
@@ -134,7 +138,7 @@ public class ToDoController {
      * @param id the ID of the ToDo to be marked as incomplete.
      * @return ResponseEntity containing the updated ToDo and HTTP status.
      */
-    
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PatchMapping("{id}/incomplete")
     public ResponseEntity<ToDoDto> inCompleteToDo(@PathVariable Long id){
 
