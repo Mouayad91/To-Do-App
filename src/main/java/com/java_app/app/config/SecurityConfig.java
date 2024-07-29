@@ -61,14 +61,15 @@ public class SecurityConfig {
                 //   .requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN","USER")
                 //   .requestMatchers(HttpMethod.PATCH,"/api/**").hasAnyRole("ADMIN","USER")
                 //     .requestMatchers(HttpMethod.GET,"/api/**").permitAll()
-                  .anyRequest().authenticated();
+                  .requestMatchers("/api/auth/**").permitAll()
+                     .anyRequest().authenticated();
           })
                 .httpBasic(Customizer.withDefaults());
 
       return http.build();
   }
 
-  
+
     // @Bean
     // public UserDetailsService userDetailsService() {
      
