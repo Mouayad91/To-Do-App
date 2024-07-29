@@ -132,10 +132,6 @@ The application has the following endpoints:
       }
       ```
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgements
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
