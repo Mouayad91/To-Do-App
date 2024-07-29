@@ -28,88 +28,118 @@ This is a simple ToDo application built using Spring Boot, Spring Security, JWT 
 - Maven
 - PostgreSQL
 
-# Application Setup
+## Getting Started
+
+### Database Setup
+
+1. Install PostgreSQL and create a database named `toDo`.
+
+    ```sql
+    CREATE DATABASE toDo;
+    ```
+
+2. Update the `application.properties` file with your PostgreSQL credentials.
+
+    ```properties
+    spring.datasource.url=jdbc:postgresql://localhost:5432/toDo
+    spring.datasource.username=your_postgres_username
+    spring.datasource.password=your_postgres_password
+    ```
+
+### Application Setup
+
 1. Clone the repository
 
--git clone https://github.com/Mouayad91/To-Do-App
+    ```bash
+    git clone https://github.com/yourusername/todo-app.git
+    ```
 
 2. Navigate to the project directory
 
--cd todo-app
+    ```bash
+    cd todo-app
+    ```
 
 3. Build the project using Maven
 
--mvn clean install
+    ```bash
+    mvn clean install
+    ```
 
 4. Run the application
 
--mvn clean spring-boot:run
+    ```bash
+    mvn spring-boot:run
+    ```
 
-# Endpoints
+### Endpoints
 
-# The application has the following endpoints:
+The application has the following endpoints:
 
-1. Authentication
+#### Authentication
 
--POST /api/auth/register - Register a new user
--POST /api/auth/login - Log in a user
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Log in a user
 
-2. ToDo
+#### ToDo
 
--POST /api/todos - Create a new ToDo (Admin only)
--GET /api/todos/{id} - Get a ToDo by ID (Admin and User)
--GET /api/todos - Get all ToDos (Admin and User)
--PUT /api/todos/{id} - Update a ToDo by ID (Admin only)
--DELETE /api/todos/{id} - Delete a ToDo by ID (Admin only)
--PATCH /api/todos/{id}/complete - Mark a ToDo as complete (Admin and User)
--PATCH /api/todos/{id}/incomplete - Mark a ToDo as incomplete (Admin and User)
+- `POST /api/todos` - Create a new ToDo (Admin only)
+- `GET /api/todos/{id}` - Get a ToDo by ID (Admin and User)
+- `GET /api/todos` - Get all ToDos (Admin and User)
+- `PUT /api/todos/{id}` - Update a ToDo by ID (Admin only)
+- `DELETE /api/todos/{id}` - Delete a ToDo by ID (Admin only)
+- `PATCH /api/todos/{id}/complete` - Mark a ToDo as complete (Admin and User)
+- `PATCH /api/todos/{id}/incomplete` - Mark a ToDo as incomplete (Admin and User)
 
-# Using Postman
+### Using Postman
 
-1. Register a User:
+1. **Register a User:**
+    - URL: `http://localhost:8081/api/auth/register`
+    - Method: `POST`
+    - Body (JSON):
+      ```json
+      {
+          "name": "admin",
+          "username": "admin",
+          "email": "admin@gmail.com",
+          "password": "password"
+      }
+      ```
 
-URL: http://localhost:8081/api/auth/register
-Method: POST
-Body (JSON):
+2. **Login to Get JWT Token:**
+    - URL: `http://localhost:8081/api/auth/login`
+    - Method: `POST`
+    - Body (JSON):
+      ```json
+      {
+          "usernameOrEmail": "admin",
+          "password": "password"
+      }
+      ```
+    - Copy the `accessToken` from the response.
 
-{
-    "name": "admin",
-    "username": "admin",
-    "email": "admin@gmail.com",
-    "password": "password"
-}
+3. **Create a ToDo:**
+    - URL: `http://localhost:8081/api/todos`
+    - Method: `POST`
+    - Headers:
+      - `Authorization`: `Bearer <your-access-token>`
+    - Body (JSON):
+      ```json
+      {
+          "title": "Learn C++",
+          "description": "It is very important to develope amazing video games",
+          "completed": false
+      }
+      ```
 
-2. Login to Get JWT Token:
+## License
 
-URL: http://localhost:8081/api/auth/login
-Method: POST
-Body (JSON):
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-{
-    "usernameOrEmail": "admin",
-    "password": "password"
-}
+## Acknowledgements
 
-"*** Copy the accessToken from the response.**"
-
-3. Create a ToDo:
-
-URL: http://localhost:8081/api/todos
-Method: POST
-Headers:
-Authorization: Bearer <your-access-token>
-Body (JSON):
-
-{
-    "title": "Sample ToDo",
-    "description": "This is a sample ToDo item",
-    "completed": false
-}
-
-
-# Acknowledgements
--Spring Boot
--Spring Security
--JSON Web Tokens (JWT)
--PostgreSQL
--Lombok
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Spring Security](https://spring.io/projects/spring-security)
+- [JSON Web Tokens (JWT)](https://jwt.io/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Lombok](https://projectlombok.org/)
