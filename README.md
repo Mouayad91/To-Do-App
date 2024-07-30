@@ -51,7 +51,7 @@ This is a simple ToDo application built using Spring Boot, Spring Security, JWT 
 1. Clone the repository
 
     ```bash
-    git clone https://github.com/yourusername/todo-app.git
+    git clone https://github.com/Mouayad91/To-Do-App.git
     ```
 
 2. Navigate to the project directory
